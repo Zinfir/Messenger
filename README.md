@@ -1,2 +1,0 @@
-# Messenger
-Client-Server app

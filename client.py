@@ -1,36 +1,51 @@
 """Messenger client"""
 # python client.py localhost 8888
 
-import time, json, sys
+import time
+import json
+import sys
+import logging
 from socket import socket, AF_INET, SOCK_STREAM
+import client_log_config
+
+
+LOGGER = logging.getLogger('client')
 
 
 def make_presence_msg():
-    TIMESTAMP = time.ctime(time.time())
-    PRESENCE_MSG = {
+    """Create presence message"""
+    LOGGER.debug('Presence message created')
+    timestamp = time.ctime(time.time())
+    presence_msg = {
         "action": "presence",
-        "time": TIMESTAMP,
+        "time": timestamp,
         "type": "status",
         "user": {
             "account_name": "Zinfir",
             "status": "Yep, I am here!"
         }
     }
-    return json.dumps(PRESENCE_MSG)
-    
+    return json.dumps(presence_msg)
+
 
 def run_client():
+    """Start client"""
+    LOGGER.debug('Start client')
     if len(sys.argv) > 0:
-        HOST = sys.argv[1]
-        PORT = int(sys.argv[2])
-    SOCKET = socket(AF_INET, SOCK_STREAM)
-    SOCKET.connect((HOST, PORT))
-    JSON_MSG = make_presence_msg()
-    SOCKET.send(JSON_MSG.encode('utf-8'))
-    DATA = SOCKET.recv(1000000)
-    dict = json.loads(DATA.decode('utf-8'))
-    print('Сообщение от сервера: ', dict['response'], ', длиной ', len(DATA), 'байт')
-    SOCKET.close()
+        host = sys.argv[1]
+        port = int(sys.argv[2])
+    client_socket = socket(AF_INET, SOCK_STREAM)
+    try:
+        client_socket.connect((host, port))
+        LOGGER.debug('Socket connection success')
+    except AttributeError:
+        LOGGER.error('Socket connection failed')
+    json_msg = make_presence_msg()
+    client_socket.send(json_msg.encode('utf-8'))
+    data = client_socket.recv(1000000)
+    server_data = json.loads(data.decode('utf-8'))
+    print('Сообщение от сервера: ', server_data['response'], ', длиной ', len(data), 'байт')
+    client_socket.close()
 
 
 if __name__ == '__main__':
