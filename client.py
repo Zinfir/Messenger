@@ -5,13 +5,15 @@ import time
 import json
 import sys
 import logging
+import logs.client_log_config
 from socket import socket, AF_INET, SOCK_STREAM
-import client_log_config
+from utility import log
 
 
 LOGGER = logging.getLogger('client')
 
 
+@log('client')
 def make_presence_msg():
     """Create presence message"""
     LOGGER.debug('Presence message created')

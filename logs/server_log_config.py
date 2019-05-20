@@ -6,7 +6,7 @@ LOGGER = logging.getLogger('server')
 FORMATTER = logging.Formatter("%(asctime)s - %(levelname)s - %(module)s - %(message)s")
 
 DAILY_ROTATING_HANDLER = TimedRotatingFileHandler(
-    "log/server.log",
+    "logs/server.log",
     when="D",
     interval=1,
     backupCount=1,

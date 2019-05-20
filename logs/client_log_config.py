@@ -4,7 +4,7 @@ import logging
 
 LOGGER = logging.getLogger('client')
 FORMATTER = logging.Formatter("%(asctime)s - %(levelname)s - %(module)s - %(message)s")
-FILE_HANDLER = logging.FileHandler("log/client.log", encoding='utf-8')
+FILE_HANDLER = logging.FileHandler("logs/client.log", encoding='utf-8')
 FILE_HANDLER.setLevel(logging.DEBUG)
 FILE_HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(FILE_HANDLER)

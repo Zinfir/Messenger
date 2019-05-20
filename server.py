@@ -4,13 +4,15 @@
 import sys
 import json
 import logging
+import logs.server_log_config
 from socket import socket, AF_INET, SOCK_STREAM
-import server_log_config
+from utility import log
 
 
 LOGGER = logging.getLogger('server')
 
 
+@log('server')
 def make_response():
     """Create response message"""
     LOGGER.debug('Response created')
